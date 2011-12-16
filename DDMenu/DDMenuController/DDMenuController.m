@@ -421,11 +421,13 @@
     [self showShadow:YES];
 
     UIView *view = self.leftController.view;
-    view.frame = [[UIScreen mainScreen] applicationFrame];
+    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+    frame.size.width -= kMenuOverlayWidth;
+    view.frame = frame;
     [self insertViewBelowSuperview:view];
-    
-    CGRect frame = self.view.frame;
-    frame.origin.x = (CGRectGetMaxX(view.frame) - kMenuOverlayWidth);
+	
+    frame = self.view.frame;
+    frame.origin.x = (frame.size.width - kMenuOverlayWidth);
     
     BOOL _enabled = [UIView areAnimationsEnabled];
     if (!animated) {
