@@ -40,6 +40,7 @@
 - (void)showShadow:(BOOL)val;
 - (void)placeRightBarButtonItem;
 - (void)placeLeftBarButtonItem;
+- (void)insertViewBelowSuperview:(UIView *)view;
 @end
 
 @implementation DDMenuController
@@ -188,7 +189,7 @@
             if (_menuFlags.canShowLeft) {
                 
                 _menuFlags.showingLeftView = YES;
-                [self.view.superview insertSubview:self.leftController.view belowSubview:self.view];
+                [self insertViewBelowSuperview:self.leftController.view];
                 
             } else {
                 frame.origin.x = 0.0f; // ignore right view if it's not set
@@ -208,7 +209,7 @@
                 frame.size.width -= kMenuOverlayWidth;
                 frame.origin.x = kMenuOverlayWidth;
                 self.rightController.view.frame = frame;
-                [self.view.superview insertSubview:self.rightController.view belowSubview:self.view];
+                [self insertViewBelowSuperview:self.rightController.view];
      
             } else {
                 frame.origin.x = 0.0f; // ignore left view if it's not set
@@ -354,6 +355,11 @@
 
 #pragma Internal Nav Handling 
 
+- (void)insertViewBelowSuperview:(UIView *)view {
+    [self.view.superview insertSubview:view belowSubview:self.view];
+    self.view.superview.backgroundColor = view.backgroundColor;
+}
+
 - (void)showShadow:(BOOL)val {
 
     self.view.layer.shadowOpacity = val ? 0.8f : 0.0f;
@@ -416,7 +422,7 @@
 
     UIView *view = self.leftController.view;
     view.frame = [[UIScreen mainScreen] applicationFrame];
-    [self.view.superview insertSubview:view belowSubview:self.view];
+    [self insertViewBelowSuperview:view];
     
     CGRect frame = self.view.frame;
     frame.origin.x = (CGRectGetMaxX(view.frame) - kMenuOverlayWidth);
@@ -452,7 +458,7 @@
     frame.origin.x = kMenuOverlayWidth;
     frame.size.width -= kMenuOverlayWidth;
     view.frame = frame;
-    [self.view.superview insertSubview:view belowSubview:self.view];
+    [self insertViewBelowSuperview:view];
     
     frame = self.view.frame;
     frame.origin.x = -(frame.size.width - kMenuOverlayWidth);
