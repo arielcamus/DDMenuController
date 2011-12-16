@@ -38,6 +38,8 @@
 - (void)showRightController:(BOOL)animated; 
 - (void)showLeftController:(BOOL)animated; 
 - (void)showShadow:(BOOL)val;
+- (void)placeRightBarButtonItem;
+- (void)placeLeftBarButtonItem;
 @end
 
 @implementation DDMenuController
@@ -486,6 +488,11 @@
     
     NSAssert([self.viewControllers count] > 0, @"Must have a root controller set.");
     
+    [self placeRightBarButtonItem];
+}
+
+- (void)placeRightBarButtonItem {
+    
     UIViewController *controller = [self.viewControllers objectAtIndex:0];
     
     if (_right) {
@@ -508,6 +515,11 @@
     _left = leftController;
     
     NSAssert([self.viewControllers count] > 0, @"Must have a root controller set.");
+    
+    [self placeLeftBarButtonItem];
+}
+
+- (void)placeLeftBarButtonItem {
     
     UIViewController *controller = [self.viewControllers objectAtIndex:0];
     
@@ -532,10 +544,11 @@
     
     self.viewControllers = [NSArray arrayWithObject:controller];
     [self showRootController:animated];
-    
+	[self placeLeftBarButtonItem];
+	[self placeRightBarButtonItem];
 }
 
-
+	
 #pragma mark - Actions 
 
 - (void)showLeft:(id)sender {
