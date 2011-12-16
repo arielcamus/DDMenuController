@@ -25,6 +25,7 @@
 //
 
 #import "DDMenuController.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kMenuOverlayWidth 40.0f
 #define kMenuBounceOffset 4.0f
