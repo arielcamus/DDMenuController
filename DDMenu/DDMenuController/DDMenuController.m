@@ -516,7 +516,7 @@
     
     if (_right) {
         
-        if (!self.rightControllerBarButtonItem == nil) {
+        if (self.rightControllerBarButtonItem == nil) {
             self.rightControllerBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRight:)];
         } else {
             self.rightControllerBarButtonItem.target = self;
