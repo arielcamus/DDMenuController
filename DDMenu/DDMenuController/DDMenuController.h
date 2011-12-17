@@ -67,6 +67,8 @@ typedef enum {
 
 - (void)setRootController:(UIViewController *)controller animated:(BOOL)animated;
 
+@property (nonatomic, assign) CGFloat menuOverlayWidth;
+
 @end
 
 @protocol DDMenuControllerDelegate 

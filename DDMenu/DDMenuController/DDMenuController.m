@@ -53,9 +53,11 @@
 @synthesize tap=_tap;
 @synthesize pan=_pan;
 
+@synthesize menuOverlayWidth=_menuOverlayWidth;
+
 - (id)initWithRootViewController:(UIViewController*)controller {
     if ((self = [super initWithRootViewController:controller])) {
-
+		_menuOverlayWidth = kMenuOverlayWidth;
     }
     return self;
 }
@@ -108,12 +110,12 @@
         
         __block CALayer *layer = [CALayer layer];
         CGRect layerFrame = [[UIScreen mainScreen] applicationFrame];
-        layerFrame.size.width = kMenuOverlayWidth;
+        layerFrame.size.width = self.menuOverlayWidth;
         layer.frame = layerFrame;
         
         UIGraphicsBeginImageContextWithOptions(layerFrame.size, YES, 0);
         CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextTranslateCTM(ctx, -(self.view.frame.size.width-kMenuOverlayWidth), -20.0f);
+        CGContextTranslateCTM(ctx, -(self.view.frame.size.width-self.menuOverlayWidth), -20.0f);
         [self.view.layer renderInContext:ctx];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -206,8 +208,8 @@
                 
                 _menuFlags.showingRightView = YES;
                 CGRect frame = [[UIScreen mainScreen] applicationFrame];
-                frame.size.width -= kMenuOverlayWidth;
-                frame.origin.x = kMenuOverlayWidth;
+                frame.size.width -= self.menuOverlayWidth;
+                frame.origin.x = self.menuOverlayWidth;
                 self.rightController.view.frame = frame;
                 [self insertViewBelowSuperview:self.rightController.view];
      
@@ -239,7 +241,7 @@
         BOOL bounce = (velocity.x > 800);
         CGFloat originX = self.view.frame.origin.x;
         CGFloat width = self.view.frame.size.width;
-        CGFloat span = (width - kMenuOverlayWidth);
+        CGFloat span = (width - self.menuOverlayWidth);
         CGFloat duration = kMenuSlideDuration; // default duration with 0 velocity
         
         
@@ -282,7 +284,7 @@
                 
             } else if (completion == DDMenuPanCompletionRight) {
                 
-                [values addObject:[NSValue valueWithCGPoint:CGPointMake(-((width/2) - (kMenuOverlayWidth-kMenuBounceOffset)), pos.y)]];
+                [values addObject:[NSValue valueWithCGPoint:CGPointMake(-((width/2) - (self.menuOverlayWidth-kMenuBounceOffset)), pos.y)]];
                 
             } else {
                 
@@ -301,7 +303,7 @@
         if (completion == DDMenuPanCompletionLeft) {
             [values addObject:[NSValue valueWithCGPoint:CGPointMake((width/2) + span, pos.y)]];
         } else if (completion == DDMenuPanCompletionRight) {
-            [values addObject:[NSValue valueWithCGPoint:CGPointMake(-((width/2) - kMenuOverlayWidth), pos.y)]];
+            [values addObject:[NSValue valueWithCGPoint:CGPointMake(-((width/2) - self.menuOverlayWidth), pos.y)]];
         } else {
             [values addObject:[NSValue valueWithCGPoint:CGPointMake(width/2, pos.y)]];
         }
@@ -422,12 +424,12 @@
 
     UIView *view = self.leftController.view;
     CGRect frame = [[UIScreen mainScreen] applicationFrame];
-    frame.size.width -= kMenuOverlayWidth;
+    frame.size.width -= self.menuOverlayWidth;
     view.frame = frame;
     [self insertViewBelowSuperview:view];
 	
     frame = self.view.frame;
-    frame.origin.x = (frame.size.width - kMenuOverlayWidth);
+    frame.origin.x = (frame.size.width - self.menuOverlayWidth);
     
     BOOL _enabled = [UIView areAnimationsEnabled];
     if (!animated) {
@@ -457,13 +459,13 @@
     
     UIView *view = self.rightController.view;
     CGRect frame = [[UIScreen mainScreen] applicationFrame];
-    frame.origin.x = kMenuOverlayWidth;
-    frame.size.width -= kMenuOverlayWidth;
+    frame.origin.x = self.menuOverlayWidth;
+    frame.size.width -= self.menuOverlayWidth;
     view.frame = frame;
     [self insertViewBelowSuperview:view];
     
     frame = self.view.frame;
-    frame.origin.x = -(frame.size.width - kMenuOverlayWidth);
+    frame.origin.x = -(frame.size.width - self.menuOverlayWidth);
     
     BOOL _enabled = [UIView areAnimationsEnabled];
     if (!animated) {
