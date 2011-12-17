@@ -62,6 +62,9 @@ typedef enum {
 @property(nonatomic,strong) UIViewController *leftController;
 @property(nonatomic,strong) UIViewController *rightController;
 
+@property(nonatomic,strong) UIBarButtonItem *leftControllerBarButtonItem;
+@property(nonatomic,strong) UIBarButtonItem *rightControllerBarButtonItem;
+
 @property(nonatomic,readonly) UITapGestureRecognizer *tap;
 @property(nonatomic,readonly) UIPanGestureRecognizer *pan;
 

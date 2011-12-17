@@ -55,6 +55,9 @@
 
 @synthesize menuOverlayWidth=_menuOverlayWidth;
 
+@synthesize leftControllerBarButtonItem=_leftControllerBarButtonItem;
+@synthesize rightControllerBarButtonItem=_rightControllerBarButtonItem;
+
 - (id)initWithRootViewController:(UIViewController*)controller {
     if ((self = [super initWithRootViewController:controller])) {
 		_menuOverlayWidth = kMenuOverlayWidth;
@@ -501,14 +504,26 @@
     [self placeRightBarButtonItem];
 }
 
+- (void)setRightControllerBarButtonItem:(UIBarButtonItem *)rightControllerBarButtonItem {
+    
+    _rightControllerBarButtonItem = rightControllerBarButtonItem;
+	[self placeRightBarButtonItem];
+}
+
 - (void)placeRightBarButtonItem {
     
     UIViewController *controller = [self.viewControllers objectAtIndex:0];
     
     if (_right) {
-            
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRight:)];
-        controller.navigationItem.rightBarButtonItem = button;
+        
+        if (!self.rightControllerBarButtonItem == nil) {
+            self.rightControllerBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRight:)];
+        } else {
+            self.rightControllerBarButtonItem.target = self;
+            self.rightControllerBarButtonItem.action = @selector(showRight:);
+        }
+        
+        controller.navigationItem.rightBarButtonItem = self.rightControllerBarButtonItem;
         _menuFlags.canShowRight = YES;
 
         
@@ -529,14 +544,27 @@
     [self placeLeftBarButtonItem];
 }
 
+- (void)setLeftControllerBarButtonItem:(UIBarButtonItem *)leftControllerBarButtonItem {
+    
+    _leftControllerBarButtonItem = leftControllerBarButtonItem;
+	[self placeLeftBarButtonItem];
+}
+
 - (void)placeLeftBarButtonItem {
     
     UIViewController *controller = [self.viewControllers objectAtIndex:0];
     
     if (_left) {
         
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showLeft:)];
-        controller.navigationItem.leftBarButtonItem = button;
+		
+		if (self.leftControllerBarButtonItem == nil) {
+            self.leftControllerBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showLeft:)];
+        } else {
+            self.leftControllerBarButtonItem.target = self;
+            self.leftControllerBarButtonItem.action = @selector(showLeft:);
+        }
+        
+        controller.navigationItem.leftBarButtonItem = self.leftControllerBarButtonItem;
         _menuFlags.canShowLeft = YES;
 
         
